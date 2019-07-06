@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Federico Perotto -- Author
+
+# THANKS
+
+    My wife and son, my family
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5
+    pure.css
