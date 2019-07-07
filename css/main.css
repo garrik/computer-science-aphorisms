@@ -1,6 +1,21 @@
+html, body {
+  font-size: 20px;
+}
+
+.main {
+  margin: 0 auto;
+  width: 700px;
+}
+.main a,
+.main a:link,
+.main a:hover,
+.main a:visited,
+.main a:active {
+  color: #343a40;
+  text-decoration: none;
+}
+
 .header {
-  margin: 1.875rem auto;
-  max-width: 60%;
 }
 
 
@@ -13,7 +28,7 @@
   font-style: italic;
   line-height: 1.6;
   margin: 1.875rem auto;
-  max-width: 60%;
+  max-width: 75%;
   padding: 4.6875rem 1.875rem 1.875rem 4.6875rem;
   position: relative;
   width: 100%;
