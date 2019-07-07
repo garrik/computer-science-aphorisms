@@ -2,22 +2,44 @@ html, body {
   font-size: 20px;
 }
 
-.main {
-  margin: 0 auto;
-  width: 700px;
+/* for-phone-only */
+@media all and (max-width: 599px) {
+  .container { max-width: 580px;margin: 0 auto; }
 }
-.main a,
-.main a:link,
-.main a:hover,
-.main a:visited,
-.main a:active {
+/* for-tablet-portrait-up */
+@media all and (min-width: 600px) {
+  .container { width: 600px;margin: 0 auto; }
+}
+/* for-tablet-landscape-up */
+@media all and (min-width: 900px) {
+  .container { width: 700px; }
+}
+/* for-desktop-up */
+@media all and (min-width: 1200px) {
+  .container { width: 700px; }
+}
+/* for-big-desktop-up */
+@media all and (min-width: 1800px) {
+  .container { width: 700px; }
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.container a,
+.container a:link,
+.container a:hover,
+.container a:visited,
+.container a:active {
   color: #343a40;
   text-decoration: none;
 }
 
 .header {
+  margin: 1.875rem auto;
+  padding: 0 1em;
 }
-
 
 .aphorism {
   font-size: 1.25rem;
@@ -28,8 +50,8 @@ html, body {
   font-style: italic;
   line-height: 1.6;
   margin: 1.875rem auto;
-  max-width: 75%;
-  padding: 4.6875rem 1.875rem 1.875rem 4.6875rem;
+  max-width: 70%;
+  padding: 2.6875rem 0.875rem 1.875rem 2.6875rem;
   position: relative;
   width: 100%;
 }
