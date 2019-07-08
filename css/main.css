@@ -2,6 +2,9 @@ html, body {
   font-size: 20px;
 }
 
+/* deny pure.css */
+abbr[title] { border: none 0; }
+
 /* for-phone-only */
 @media all and (max-width: 599px) {
   .container { max-width: 580px;margin: 0 auto; }
