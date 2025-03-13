@@ -87,12 +87,46 @@
         }
     }
 
+    /**
+     * Randomly selects an article to display while hiding others. 
+     * Ensures that all articles are picked before repeating any.
+     * Clears past picks when all articles have been picked.
+     */
     function pickRandom(){
         const articles = [].slice.call(document.querySelectorAll('article'));
         if (!articles.length) { return }
 
-        const randomIndex = Math.floor(Math.random() * articles.length);
+        let pastRandomPicks = getPastRandomPicks();
+        if (pastRandomPicks.length === articles.length) {
+            clearPastRandomPicks();
+            pastRandomPicks = [];
+        }
+        const randomIndex = getRandomWithExclusion(0, articles.length - 1, pastRandomPicks);
         hideElementsExcept(randomIndex);
+
+        storeRandomPick(randomIndex);
+    }
+
+    /**
+     * Generates a random number between start and end, excluding the values in
+     * the exclude array.
+     * Thanks to https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
+     * @param {number} start - the start of the range
+     * @param {number} end - the end of the range
+     * @param {number[]} exclude - the values to exclude from the range
+     * @return {number} the random number
+     */
+    function getRandomWithExclusion(start, end, exclude) {
+        const max = end - start + 1 - exclude.length;
+        let random = Math.floor(Math.random() * max);
+        for (let i = 0; i < exclude.length; i++) {
+            const ex = exclude[i];
+            if (random < ex) {
+                break;
+            }
+            random++;
+        }
+        return random;
     }
 
     function hideElementsExcept(randomIndex){
@@ -122,6 +156,54 @@
         if (styleSheet.rules.length) {
             styleSheet.deleteRule(0);
         }
+    }
+
+    const pickedAphorismsKey = 'picked-aphorisms';
+    function storeRandomPick(index){
+         const storedIndexes = localStorage.getItem(pickedAphorismsKey);
+        let indexes;
+        if (!storedIndexes) {
+            indexes = [index];
+        }
+        else {
+            indexes = JSON.parse(storedIndexes);
+            // keep indexes sorted ascending
+            const position = sortedIndex(indexes, index);
+            indexes.splice(position, 0, index);
+        }
+
+        const indexesToStore = JSON.stringify(indexes);
+        try {
+            localStorage.setItem(pickedAphorismsKey, indexesToStore);
+        }
+        catch (e) {
+            console.error('failed to store random picks, you may happen to pick the same aphorism multiple times, sorry');
+        }
+    }
+
+    // thanks to https://stackoverflow.com/questions/1344500/efficient-way-to-insert-a-number-into-a-sorted-array-of-numbers
+    function sortedIndex(array, value) {
+        var low = 0,
+            high = array.length;
+    
+        while (low < high) {
+            var mid = low + high >>> 1;
+            if (array[mid] < value) low = mid + 1;
+            else high = mid;
+        }
+        return low;
+    }
+    
+
+    function getPastRandomPicks(){
+        const storedIndexes = localStorage.getItem(pickedAphorismsKey);
+        if (!storedIndexes) { return [] }
+
+        return JSON.parse(storedIndexes);
+    }
+
+    function clearPastRandomPicks(){
+        localStorage.removeItem(pickedAphorismsKey);
     }
 
     window.onload = function(){
