@@ -7,11 +7,11 @@ abbr[title] { border: none 0; }
 
 /* for-phone-only */
 @media all and (max-width: 599px) {
-  .container { max-width: 580px;margin: 0 auto; }
+  .container { max-width: 580px; margin: 0 auto; }
 }
 /* for-tablet-portrait-up */
 @media all and (min-width: 600px) {
-  .container { width: 600px;margin: 0 auto; }
+  .container { width: 600px; margin: 0 auto; }
 }
 /* for-tablet-landscape-up */
 @media all and (min-width: 900px) {
@@ -40,9 +40,9 @@ abbr[title] { border: none 0; }
 }
 
 .header {
-  margin: 1.875rem auto;
-  padding: 0 1em;
+  margin: 1.875rem 0.5rem;
 }
+.main { margin: 0 0.5rem; }
 
 .aphorism {
   font-size: 1.25rem;
@@ -53,10 +53,8 @@ abbr[title] { border: none 0; }
   font-style: italic;
   line-height: 1.6;
   margin: 1.875rem auto;
-  max-width: 70%;
   padding: 2.6875rem 0.875rem 1.875rem 2.6875rem;
   position: relative;
-  width: 100%;
 }
 .aphorism:before {
   font-size: 6.875rem;
