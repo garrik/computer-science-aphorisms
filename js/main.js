@@ -24,6 +24,11 @@
         return str;
     }
     
+    /**
+     * Generates IDs for all articles without an ID, by taking the first 25 
+     * characters of the text inside the blockquote and slugifying it.
+     * @return {undefined}
+     */
     function generateIds(){
         var articles = [].slice.call(document.querySelectorAll('article'));
 
@@ -65,9 +70,11 @@
         sortBy('blockquote');
     }
     function toggleSorting(e){
-        var valueSortByAphorism = 'aphorism';
-        var valueSortByAuthor = 'author';
-        var value = this.getAttribute('data-sort-by') || valueSortByAphorism;
+        clearRandomPick();
+
+        const valueSortByAphorism = 'aphorism';
+        const valueSortByAuthor = 'author';
+        const value = this.getAttribute('data-sort-by') || valueSortByAphorism;
         if (value === valueSortByAphorism) {
             sortBy('footer'); // footer contains the author
             this.setAttribute('data-sort-by', valueSortByAuthor);
@@ -80,11 +87,51 @@
         }
     }
 
+    function pickRandom(){
+        const articles = [].slice.call(document.querySelectorAll('article'));
+        if (!articles.length) { return }
+
+        const randomIndex = Math.floor(Math.random() * articles.length);
+        hideElementsExcept(randomIndex);
+    }
+
+    function hideElementsExcept(randomIndex){
+        let style = document.head.querySelector('style#random-aphorism');
+        if (!style) {
+            style = document.createElement('style');
+            style.id = 'random-aphorism';
+            document.head.appendChild(style);
+        }
+        const styleSheet = style.sheet;
+        // show all again unless it's the 1st random pick
+        if (styleSheet.rules.length) {
+            styleSheet.deleteRule(0);
+        }
+
+        // calculate the index of the article to show, the rest is hidden
+        const buttonsCount = 2;
+        const index = buttonsCount + randomIndex + 1;
+        styleSheet.insertRule('article:not(:nth-child(' + index + ')) { display: none; }', 0);
+    }
+
+    function clearRandomPick(){
+        const style = document.head.querySelector('style#random-aphorism');
+        if (!style) { return }
+
+        const styleSheet = style.sheet;
+        if (styleSheet.rules.length) {
+            styleSheet.deleteRule(0);
+        }
+    }
+
     window.onload = function(){
-        var sortButton = document.getElementById('sort-by');
+        const sortButton = document.getElementById('sort-by');
         if (sortButton) {
             sortButton.addEventListener('click', toggleSorting, false);
         }
+
+        const randomPickButton = document.getElementById('pick-random');
+        randomPickButton.addEventListener('click', pickRandom, false);
     }
     window.generateIds = generateIds;
 })()
